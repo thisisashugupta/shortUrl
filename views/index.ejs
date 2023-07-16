@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Shorten URL</title>
+  </head>
+
+  <body>
+    <h2>Shorten URL</h2>
+    <form action="/short" method="post">
+      <input
+        type="text"
+        id="fullUrl"
+        name="fullUrl"
+        placeholder="Paste URL here"
+        required
+      />
+      <!--
+
+
+      <input
+        type="text"
+        id="customUrl"
+        name="customUrl"
+        placeholder="Custom URL (optional)"
+      />
+
+
+      -->
+
+      <button type="submit">get short url</button>
+    </form>
+
+    <div class="code-box">
+      <span id="urlString"><%= urlObj %></span>
+      <button onclick="copyToClipboard()">Copy</button>
+    </div>
+
+    <script>
+      const urlObj = "<%= urlObj %>";
+      const codeBox = document.querySelector(".code-box");
+
+      if (urlObj === "") {
+        codeBox.classList.add("hide");
+      } else {
+        codeBox.classList.remove("hide");
+      }
+
+      function copyToClipboard() {
+        const urlString = document.getElementById("urlString").innerText;
+        const tempInput = document.createElement("input");
+
+        // Assign the value of the urlString to the temporary input element
+        tempInput.value = urlString;
+
+        // Append the temporary input element to the document body
+        document.body.appendChild(tempInput);
+
+        // Select the value within the temporary input element
+        tempInput.select();
+
+        // Execute the "copy" command to copy the selected value to the clipboard
+        document.execCommand("copy");
+
+        // Remove the temporary input element from the document body
+        document.body.removeChild(tempInput);
+
+        // Alert the user that the content has been successfully copied
+        alert("Copied to clipboard!");
+      }
+    </script>
+  </body>
+</html>
