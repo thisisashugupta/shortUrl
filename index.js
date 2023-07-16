@@ -60,7 +60,7 @@ app.get("*", (req, res) => res.redirect("/"));
 
 // Setup mongodb connection here
 try {
-  mongoose.connect("mongodb://localhost:27017/shortenurl");
+  mongoose.connect(process.env.MONGO_URI);
 
   mongoose.connection.on("open", () => {
     // Wait for mongodb connection before server starts
