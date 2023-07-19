@@ -17,21 +17,19 @@
         placeholder="Paste URL here"
         required
       />
-      <!--
-
-
       <input
         type="text"
-        id="customUrl"
-        name="customUrl"
+        id="short"
+        name="short"
         placeholder="Custom URL (optional)"
       />
 
-
-      -->
-
       <button type="submit">get short url</button>
     </form>
+
+    <% if (message) { %>
+    <p><%= message %></p>
+    <% } %>
 
     <div class="code-box">
       <span id="urlString"><%= urlObj %></span>
