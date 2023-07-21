@@ -6,6 +6,10 @@ const ShortUrl = require("./models/url");
 const PORT = process.env.PORT || 1337;
 const DOMAIN_NAME = process.env.DOMAIN_NAME;
 
+function cleanKeyword(keyword) {
+  return keyword.replace(/\s+/g, "");
+}
+
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
@@ -16,6 +20,7 @@ app.get("/", (req, res) => {
 
 app.get("/:shortid", async (req, res) => {
   const { shortid } = req.params;
+
   let data = await ShortUrl.findOne({ short: shortid });
 
   if (data) {
@@ -35,9 +40,10 @@ app.get("/:shortid", async (req, res) => {
 
 app.post("/short", async (req, res) => {
   const { fullUrl, short } = req.body;
-  let record;
+  let record,
+    shortKW = cleanKeyword(short);
 
-  if (short === "") {
+  if (shortKW === "") {
     // just add the default value to the record
     record = new ShortUrl({
       full: fullUrl,
@@ -45,7 +51,7 @@ app.post("/short", async (req, res) => {
     await record.save();
   } else {
     // search in the db if short is available
-    const result = await ShortUrl.findOne({ short: short });
+    const result = await ShortUrl.findOne({ short: shortKW });
     if (result !== null) {
       /* return and ask for another short */ return res.render("index", {
         urlObj: "",
@@ -55,7 +61,7 @@ app.post("/short", async (req, res) => {
 
     record = new ShortUrl({
       full: fullUrl,
-      short: short,
+      short: shortKW,
     });
     await record.save();
   }
