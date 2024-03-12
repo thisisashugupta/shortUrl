@@ -4,7 +4,9 @@ function rateLimiter({ secondsWindow, allowedHits }) {
   // rate limit setup
   return async (req, res, next) => {
     const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+    console.log('ip = ', ip);
     const requests = await redis.incr(ip);
+    console.log('requests = ', requests);
     console.log(
       `Rate Limiter: Number of requests made by ip address ${ip} are ${requests}`
     );
@@ -16,7 +18,7 @@ function rateLimiter({ secondsWindow, allowedHits }) {
     } else {
       ttl = await redis.ttl(ip);
     }
-    console.log(`TTL = ${ttl}`);
+    console.log("TTL =", ttl);
 
     if (requests > allowedHits) {
       return res.render("index", {

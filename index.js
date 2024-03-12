@@ -10,7 +10,7 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
-  console.log("visiting home route");
+  console.log("user visited / route");
   res.render("index", { urlObj: "", message: "" });
 });
 
