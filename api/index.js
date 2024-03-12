@@ -2,8 +2,8 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const ShortUrl = require("./models/url");
-const rateLimiter = require("./rate-limiter");
+const ShortUrl = require("../models/url");
+const rateLimiter = require("../rate-limiter");
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
